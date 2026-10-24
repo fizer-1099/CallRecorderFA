@@ -25,11 +25,6 @@ jobs:
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v4
-    with:
-      packages: "platform-tools"
-
-      - name: Accept Android SDK licenses
-        run: yes | sdkmanager --licenses
 
       - name: Install SDK packages
         run: |
@@ -37,13 +32,10 @@ jobs:
           sdkmanager --install "platforms;android-35"
           sdkmanager --install "build-tools;35.0.0"
 
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: '8.9'
-
       - name: Build APK
-        run: gradle assembleDebug
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
